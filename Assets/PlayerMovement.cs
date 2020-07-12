@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -14,9 +16,19 @@ public class PlayerMovement : MonoBehaviour
     string leftInput;
     string rightInput;
     string upInput;
+    
+    string[] downInputs = new string[] { };
+    string[] leftInputs = new string[] { };
+    string[] rightInputs = new string[] { };
+    string[] upInputs = new string[] { };
+
+
 
     [SerializeField]
     private GameObject _bulletPrefab;
+
+    [SerializeField]
+    private ControlDisplay _controlDisplay;
 
     private SpawnManager _spawnManager;
 
@@ -24,6 +36,8 @@ public class PlayerMovement : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        _controlDisplay.SetNumberOfControls(_controlInputs);
+
         transform.position = new Vector3(0, 0, 0);
 
         _spawnManager = GameObject.Find("SpawnManager").GetComponent<SpawnManager>();
@@ -40,12 +54,39 @@ public class PlayerMovement : MonoBehaviour
         float horizontalInput = 0; // Change to allow different key inputs
         float verticalInput = Input.GetAxis("Vertical");
 
+        if (rightInput != null)
+        {
+            if (Input.GetKey(rightInput))
+            {
+                Debug.Log(rightInput + " key was pressed");
+                horizontalInput = 1;
+            }
+        }
+
         if (leftInput != null)
         {
             if (Input.GetKey(leftInput))
             {
-                Debug.Log("D key was pressed");
-                horizontalInput = 1;
+                Debug.Log(leftInput + " key was pressed");
+                horizontalInput = -1;
+            }
+        }
+
+        if (downInput != null)
+        {
+            if (Input.GetKey(downInput))
+            {
+                Debug.Log(downInput + " key was pressed");
+                verticalInput = -1;
+            }
+        }
+
+        if (upInput != null)
+        {
+            if (Input.GetKey(upInput))
+            {
+                Debug.Log(upInput + " key was pressed");
+                verticalInput = 1;
             }
         }
 
@@ -60,13 +101,55 @@ public class PlayerMovement : MonoBehaviour
         
         _controlInputs += 1; // Add Controls
 
-        if (controlDirection == "Down") {
-            this.downInput = keyPress;
+        _controlDisplay.SetNumberOfControls(_controlInputs);
+
+        if (controlDirection == "Down")
+        {
+
+            if (this.downInput != null)
+            {
+                this.downInputs.Append(keyPress); // Add to list
+            }
+            else
+            {
+                this.downInput = keyPress; // Set as current
+            }
+        }
+
+        if (controlDirection == "Right")
+        {
+            if (this.rightInput != null)
+            {
+                this.rightInputs.Append(keyPress); // Add to list
+            }
+            else
+            {
+                this.rightInput = keyPress;
+            }
+        }
+
+        if (controlDirection == "Up")
+        {
+            if (this.upInput != null)
+            {
+                this.upInputs.Append(keyPress); // Add to list
+            }
+            else
+            {
+                this.upInput = keyPress;
+            }
         }
 
         if (controlDirection == "Left")
         {
-            this.leftInput = keyPress;
+            if (this.leftInput != null)
+            {
+                this.leftInputs.Append(keyPress); // Add to list
+            }
+            else
+            {
+                this.leftInput = keyPress;
+            }
         }
 
         Debug.Log(keyPress + controlDirection);

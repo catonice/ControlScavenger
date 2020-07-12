@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ControlInput : MonoBehaviour
 {
@@ -14,7 +16,11 @@ public class ControlInput : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
+        TextMeshProUGUI textmeshPro = GetComponentInChildren<TextMeshProUGUI>();
+        if (textmeshPro)
+        {
+            textmeshPro.SetText("" + keyPress.ToUpper());
+        }
     }
 
     // Update is called once per frame
@@ -29,11 +35,15 @@ public class ControlInput : MonoBehaviour
         }
     }
 
-    public void ConstructControlInput(string keyPress, string controlDirection)
+    public void UpdateText()
     {
-        Debug.Log(keyPress + controlDirection);
-        this.controlDirection = controlDirection;
-        this.keyPress = keyPress;
+        Debug.Log("UPDATETEXT");
+        TextMeshPro textmeshPro = GetComponentInChildren<TextMeshPro>();
+        if (textmeshPro)
+        {
+            Debug.Log("UPDATETEXT" + keyPress);
+            textmeshPro.SetText(">" + keyPress);
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D other)
