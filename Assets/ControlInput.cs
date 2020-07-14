@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class ControlInput : MonoBehaviour
 {
-    float _speed = 4f;
+    float _speed = 2f;
     float _yBounds = 5f;
     float _xBounds = 9f;
 
@@ -37,11 +37,11 @@ public class ControlInput : MonoBehaviour
 
     public void UpdateText()
     {
-        Debug.Log("UPDATETEXT");
+        //Debug.Log("UPDATETEXT");
         TextMeshPro textmeshPro = GetComponentInChildren<TextMeshPro>();
         if (textmeshPro)
         {
-            Debug.Log("UPDATETEXT" + keyPress);
+            //Debug.Log("UPDATETEXT" + keyPress);
             textmeshPro.SetText(">" + keyPress);
         }
     }
@@ -59,7 +59,7 @@ public class ControlInput : MonoBehaviour
 
             Destroy(this.gameObject);
 
-            Debug.Log("Control Hit");
+            //Debug.Log("Control Hit");
         }
     }
 }
